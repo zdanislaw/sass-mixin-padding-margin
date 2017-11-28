@@ -1,0 +1,51 @@
+/**
+ * Mixin to generate padding or margin
+ * @param {string} $padding-margin - Only padding or margin words are accepted
+ * @param {number} $limiter - maximum padding/margin value
+ * @param {number} $step - step for incrementation
+ * @author zetstudio.pro
+*/
+
+@mixin padding-margin($padding-margin, $limiter, $step) {
+
+    $settings: (
+      t: (top),
+      b: (bottom),
+      l: (left),
+      r: (right),
+      v: (top, bottom),
+      h: (left, right)
+    );
+
+    $stepper: ($limiter/$step);
+    $selector: null;
+
+    @if $padding-margin == padding {
+      $selector: p;
+    }
+
+    @if $padding-margin == margin {
+      $selector: m;
+    }
+
+
+  @for $i from 0 through $stepper {
+
+    .#{$selector}-#{$limiter} {
+       #{$padding-margin}: #{$limiter}px !important;
+    }
+
+      @each $key, $values in $settings {
+        .#{$selector}#{$key}-#{$limiter} {
+            @each $value in $values {
+              #{$padding-margin}-#{$value}: #{$limiter}px !important;
+            }
+        }
+      }
+
+
+
+    $limiter : $limiter - $step;
+
+  }
+}
